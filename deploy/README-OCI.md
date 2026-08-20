@@ -286,6 +286,58 @@ curl -s http://<IP_PUBLICO>:8000/api/status
 
 ---
 
+## Deixar pronto para a avaliação
+
+Depois que o container subir e o acesso público funcionar, faça este preparo. Ele
+existe porque o free tier do Gemini dá cerca de **20 requisições por dia por
+modelo** e o agente é aberto, sem login: a cota é compartilhada com quem abrir o link.
+
+### 1. Confirme que o índice subiu sozinho
+
+```bash
+curl -s http://localhost:8000/api/status
+```
+
+Deve trazer `"pronto": true` com 30 chunks e 4 alunos. Se vier `chunks_indexados: 0`,
+veja os logs (`docker compose logs | grep -i index`).
+
+### 2. Pré-gere alguns PDIs
+
+A tela de PDI lê os planos já salvos do disco: abrir um PDI existente **não gasta
+nenhuma chamada de API**. Gerar 3 ou 4 agora garante que o avaliador veja a tela
+gráfica cheia mesmo que a cota do dia acabe.
+
+```bash
+curl -s -X POST http://localhost:8000/api/pdi -H "Content-Type: application/json"   -d '{"nome_aluno":"Pedro Souza","vaga_alvo":"Desenvolvedor Full Stack Pleno, com React e Node.js"}'
+
+curl -s -X POST http://localhost:8000/api/pdi -H "Content-Type: application/json"   -d '{"nome_aluno":"Carlos Andrade","vaga_alvo":"Desenvolvedor Backend Senior, com Python, cloud e Docker"}'
+
+curl -s -X POST http://localhost:8000/api/pdi -H "Content-Type: application/json"   -d '{"nome_aluno":"Ana Beatriz","vaga_alvo":"SDET, com automacao de API e CI/CD"}'
+```
+
+Os PDIs ficam no volume `estado` e sobrevivem a `docker compose restart`.
+
+### 3. Reserve a cota do dia da entrega
+
+Faça seus testes num dia e mande o link no outro. Se testar muito e a cota acabar,
+o agente avisa o motivo na interface, mas o avaliador não vê as respostas.
+
+Para eliminar o limite de vez, habilite faturamento no projeto do Google em
+<https://ai.studio/projects> — o volume de uma avaliação custa centavos.
+
+### 4. O que continua funcionando sem cota
+
+Vale saber para não entrar em pânico: **base de documentos, PDIs já gerados,
+validações e painel admin não dependem do LLM**. Só o chat e a geração de PDI novo
+precisam de cota.
+
+### 5. Depois da avaliação
+
+Revogue a chave usada e gere outra em <https://aistudio.google.com/apikey>. Um
+agente aberto na internet com a sua chave é uma porta para consumirem sua cota.
+
+---
+
 ## Diagnóstico de problemas
 
 | Sintoma | Causa provável | Como resolver |
