@@ -331,11 +331,6 @@ Vale saber para não entrar em pânico: **base de documentos, PDIs já gerados,
 validações e painel admin não dependem do LLM**. Só o chat e a geração de PDI novo
 precisam de cota.
 
-### 5. Depois da avaliação
-
-Revogue a chave usada e gere outra em <https://aistudio.google.com/apikey>. Um
-agente aberto na internet com a sua chave é uma porta para consumirem sua cota.
-
 ---
 
 ## Diagnóstico de problemas

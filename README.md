@@ -717,15 +717,20 @@ público — e cabe inteiro no Always Free.
 
 ### Agente rodando na OCI
 
+**[Abrir o agente ao vivo](http://140.238.178.104:8000)** — `http://140.238.178.104:8000`
+
 ![Agente Mentor de Carreiras respondendo no IP público da instância OCI](docs/printoci.png)
 
-Print da tela **Mentor** rodando em `http://140.238.178.104:8000`, instância
-`VM.Standard.A1.Flex` (2 OCPU / 12 GB) na Ampere A1. A resposta veio do agente de
-verdade, com function calling acionando `buscar_info_aluno` sobre o currículo do
-Carlos Andrade — o rodapé mostra o índice ativo (30 trechos, 4 alunos) e o
-modelo em uso no momento (`gemini-flash-lite-latest`), resultado da troca
-automática de modelo quando a cota diária gratuita de um modelo se esgota (ver
+Print da tela **Mentor** rodando na instância `VM.Standard.A1.Flex` (2 OCPU / 12 GB)
+na Ampere A1. A resposta veio do agente de verdade, com function calling acionando
+`buscar_info_aluno` sobre o currículo do Carlos Andrade — o rodapé mostra o índice
+ativo (30 trechos, 4 alunos) e o modelo em uso no momento
+(`gemini-flash-lite-latest`), resultado da troca automática de modelo quando a
+cota diária gratuita de um modelo se esgota (ver
 [Modelos e cota do free tier](#modelos-e-cota-do-free-tier)).
+
+> Se o link acima estiver fora do ar, o print e os 5 exemplos de pergunta e
+> resposta reais logo abaixo documentam a execução real na OCI.
 
 ---
 
