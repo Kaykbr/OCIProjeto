@@ -17,6 +17,7 @@ com deploy em **Oracle Cloud Infrastructure**.
 
 - [O problema](#o-problema)
 - [O produto](#o-produto)
+- [De onde vem este projeto](#de-onde-vem-este-projeto)
 - [As telas](#as-telas)
 - [Arquitetura](#arquitetura)
 - [As 4 ferramentas do agente](#as-4-ferramentas-do-agente)
@@ -62,6 +63,27 @@ Duas regras sustentam o produto:
 2. **O agente propõe, o mentor decide.** Toda resposta pode ser aprovada, marcada
    para ajuste ou rejeitada, com observação. Esse histórico vira o termômetro de
    qualidade do agente.
+
+## De onde vem este projeto
+
+Este não é um problema hipotético inventado para o desafio. Meu Trabalho de
+Conclusão de Curso foi na área de educação, sobre o uso de Inteligência
+Artificial na geração de currículos e de Planos de Desenvolvimento Individual
+(PDI) — e um dos pontos que o próprio trabalho apontava como **trabalho futuro**
+era exatamente mesclar IA e humano: usar o modelo como ferramenta de apoio ao
+lado de quem acompanha o aluno de perto, e não como uma caixa-preta que decide
+sozinha no lugar dele.
+
+Este sistema é essa lacuna colocada em prática. A regra 2 acima — **o agente
+propõe, o mentor decide** — não é um detalhe de UX; é o núcleo do que o TCC
+identificou como caminho necessário. Por isso a tela de
+[Validações](#as-telas) existe como cidadã de primeira classe do produto, e não
+como um registro de log escondido: cada resposta do agente passa por um humano
+antes de virar decisão sobre a carreira de alguém, e esse histórico de aprovação
+é o que dá ao mentor (e a quem for avaliar o sistema depois) visibilidade sobre
+a qualidade real do agente ao longo do tempo — não só na hora em que ele
+responde, mas depois, quando confrontado com o julgamento de quem conhece o
+aluno.
 
 ## As telas
 
@@ -695,15 +717,15 @@ público — e cabe inteiro no Always Free.
 
 ### Agente rodando na OCI
 
-> ⚠️ **Pendente:** substitua por um print ou vídeo curto do sistema respondendo
-> através do IP público da instância, com a barra de endereço visível
-> (`http://<IP_PUBLICO>:8000`).
->
-> ```markdown
-> ![Agente Mentor de Carreiras rodando na OCI](docs/agente-na-oci.png)
-> ```
->
-> Salve a imagem em `docs/agente-na-oci.png`.
+![Agente Mentor de Carreiras respondendo no IP público da instância OCI](docs/printoci.png)
+
+Print da tela **Mentor** rodando em `http://140.238.178.104:8000`, instância
+`VM.Standard.A1.Flex` (2 OCPU / 12 GB) na Ampere A1. A resposta veio do agente de
+verdade, com function calling acionando `buscar_info_aluno` sobre o currículo do
+Carlos Andrade — o rodapé mostra o índice ativo (30 trechos, 4 alunos) e o
+modelo em uso no momento (`gemini-flash-lite-latest`), resultado da troca
+automática de modelo quando a cota diária gratuita de um modelo se esgota (ver
+[Modelos e cota do free tier](#modelos-e-cota-do-free-tier)).
 
 ---
 
