@@ -17,6 +17,7 @@ from __future__ import annotations
 import re
 import unicodedata
 from dataclasses import dataclass
+from pathlib import Path
 
 from app.ingestion.pdf_parser import CurriculoBruto, eh_cabecalho_de_secao
 
@@ -115,7 +116,13 @@ def _quebrar_texto(texto: str, tamanho: int, sobreposicao: int) -> list[str]:
 def gerar_chunks(curriculo: CurriculoBruto, tamanho: int = 900, sobreposicao: int = 150) -> list[Chunk]:
     """Transforma um curriculo lido em uma lista de chunks prontos para indexar."""
     chunks: list[Chunk] = []
-    identificador = slug(curriculo.nome_aluno).replace(" ", "_")
+    # Baseado no ARQUIVO, nao no nome do aluno: dois documentos podem descrever
+    # a mesma pessoa (reenvio, teste, nome em comum) e, se o id dependesse so
+    # do nome, colidiriam no upsert do Chroma - um upload sobrescreveria em
+    # silencio os chunks do outro, e apagar o duplicado apagaria o original
+    # junto. O nome do arquivo e garantidamente unico (ServicoDocumentos
+    # sempre gera "_2", "_3"... em caso de colisao).
+    identificador = slug(Path(curriculo.arquivo).stem).replace(" ", "_")
 
     for secao, conteudo in dividir_por_secoes(curriculo.texto):
         for pedaco in _quebrar_texto(conteudo, tamanho, sobreposicao):
