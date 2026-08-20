@@ -1,0 +1,20 @@
+# --- API / servidor ---
+fastapi>=0.115,<1.0
+uvicorn>=0.30,<1.0          # sem [standard]: evita compilar uvloop/httptools no build ARM
+python-dotenv>=1.0,<2.0
+pydantic>=2.8,<3.0
+
+# --- LLM + embeddings (Google Gemini) ---
+google-genai>=1.0,<2.0
+
+# --- Ingestao de PDF ---
+pypdf>=4.3,<7.0
+
+# --- Vector store ---
+chromadb>=1.0,<2.0          # 1.x tem wheels prontas para linux/arm64 (Ampere A1)
+
+# --- Geracao dos curriculos ficticios de exemplo ---
+fpdf2>=2.7,<3.0
+
+# --- Upload de curriculos pela interface ---
+python-multipart>=0.0.9,<1.0

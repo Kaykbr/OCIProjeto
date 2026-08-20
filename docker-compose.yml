@@ -1,0 +1,37 @@
+# Sobe o agente completo com um comando:
+#
+#   cp .env.example .env   &&   editar a GEMINI_API_KEY
+#   docker compose up -d
+#
+# Depois: http://localhost:8000  (ou http://<IP_PUBLICO_OCI>:8000)
+
+services:
+  agente:
+    build: .
+    image: agente-mentor-carreiras:latest
+    container_name: agente-mentor-carreiras
+
+    # A chave do Gemini vem daqui e nunca do repositorio.
+    env_file:
+      - .env
+
+    environment:
+      PORT: ${PORT:-8000}
+
+    ports:
+      - "${PORT:-8000}:${PORT:-8000}"
+
+    volumes:
+      # PDFs vem do host (troque os curriculos sem rebuildar a imagem).
+      # Precisa ser gravavel: o painel admin recebe upload de curriculo.
+      - ./data/curriculos:/app/data/curriculos
+      # Indice persistido: nao precisa reindexar a cada restart.
+      - chroma:/app/data/chroma
+      # PDIs gerados e validacoes do mentor sobrevivem ao restart.
+      - estado:/app/data/estado
+
+    restart: unless-stopped
+
+volumes:
+  chroma:
+  estado:

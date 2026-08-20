@@ -1,0 +1,25 @@
+# Segredos - a chave entra por variavel de ambiente em runtime, nunca na imagem.
+.env
+
+# Ambiente local
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Indice local: o container gera o seu proprio
+data/chroma/
+data/estado/
+
+# Versionamento e docs que nao afetam o runtime
+.git/
+.gitignore
+deploy/
+tests/
+README.md
+
+# Editores / SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
