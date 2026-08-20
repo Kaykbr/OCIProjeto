@@ -43,12 +43,14 @@ COPY --from=builder /opt/venv /opt/venv
 COPY app ./app
 COPY scripts ./scripts
 COPY data/curriculos ./data/curriculos
+COPY entrypoint.sh /entrypoint.sh
 
-# Usuario sem privilegios; /app/data precisa ser gravavel (indice + estado).
+# Usuario sem privilegios que roda a aplicacao (o entrypoint derruba para ele
+# depois de ajustar a posse de /app/data - ver entrypoint.sh para o motivo).
 RUN useradd --create-home --uid 1000 agente \
     && mkdir -p /app/data/chroma /app/data/estado \
-    && chown -R agente:agente /app
-USER agente
+    && chown -R agente:agente /app \
+    && chmod +x /entrypoint.sh
 
 # Documental: a porta real vem da variavel PORT.
 EXPOSE 8000
@@ -56,4 +58,7 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
     CMD python -c "import os,urllib.request; urllib.request.urlopen('http://127.0.0.1:' + os.environ.get('PORT','8000') + '/health')" || exit 1
 
-CMD ["sh", "-c", "exec uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+# Sobe como root de proposito: o entrypoint corrige a posse de /app/data
+# (que pode vir de um bind mount do host com UID diferente) e so entao
+# derruba privilegio para o usuario 'agente' antes de rodar o uvicorn.
+CMD ["/entrypoint.sh"]

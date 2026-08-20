@@ -1,0 +1,3 @@
+# Scripts de shell precisam de LF sempre, em qualquer SO que clonar o repo -
+# um entrypoint com CRLF quebra o shebang (#!/bin/sh) dentro do container Linux.
+*.sh text eol=lf
