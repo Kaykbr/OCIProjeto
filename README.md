@@ -239,8 +239,7 @@ projetos parecidos:
 **1. O Google aposenta nomes de modelo.** Em agosto de 2026 o `gemini-2.5-flash`
 passou a responder `404 — no longer available to new users`. A lista de
 preferência em `app/config.py` começa pelos modelos atuais e mantém os antigos
-como rede de segurança; `scripts/checar_modelos.py` testa a sua chave de verdade
-e diz o que colocar no `.env`.
+como rede de segurança; `scripts/checar_modelos.py`.
 
 **2. A cota gratuita é diária E por modelo.** Medido na prática: cada modelo flash
 dá cerca de **20 requisições por dia**. Uma demo pública esgota isso em poucas
